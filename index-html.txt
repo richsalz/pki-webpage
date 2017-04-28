@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <title>SSL for XXX Web Servers</title>
+    <link rel='stylesheet' type='text/css' media='screen' href="style.css">
+  </head>
+  <body bgcolor='#edf1f3'>
+    <h1>SSL for XXX Web Servers</h1>
+
+    <div class='bigbox'>
+      <fieldset>
+        <legend>Certificate Authority</legend>
+        <p>
+        If you are connecting to an XXX Web server and get a warning that the
+        server is not trusted, then clicking here might help. (If it doesn't,
+        then you should send a note to the people who run that web server and
+        tell them about this website.)
+        </p>
+        <p>
+        <a target="_blank" href="win-instr">Installations instructions for
+          Windows</a> (in new window)
+        <p>
+        <a href="cert.der">Get Certificate</a> for installation into Windows
+        </p>
+        <p>
+        <a href="cert.pem">Get Certificate</a> in text form.
+        </p>
+      </fieldset>
+    </div>
+
+    <p><br/></p>
+    <div class='bigbox'>
+      <fieldset>
+        <legend>Create Certificate</legend>
+        <p>
+        If you run a Web server within XXX, then you can get
+        an SSL certificate within the (hopefully, growing) internal XXX
+        PKI infrastructure.  Enter your XXX name and password, and
+        then the name or IP address (or both) of your server.  We will
+        generate an RSA keypair and certificate for it.
+        </p>
+        <form action='makecert.cgi' method='post'>
+          <p>
+          <label for='name'>XXX Login</label>
+          <input type='text' name='name' size='20'/>
+          <br/>
+          <label for='pass'>Password</label>
+          <input type='password' name='pass' size='20'/>
+          </p>
+
+          <p>
+          <label for='hostname'>Server name</label>
+          <input type='text' name='hostname' size='20'/>
+          <br/>
+          <label for='suffix'>Append .xxx.com?</label>
+          <input type='radio' name='suffix' value='yes'/>Yes
+          <input type='radio' name='suffix' value='no' checked/>No
+          </p>
+
+          <p>
+          <label for='ipaddr'>IP Address</label>
+          <input type='text' name='ipaddr' size='20'/>
+          </p>
+
+          <p>
+          <label for='results'>Return results as</label>
+          <input type='radio' name='results' value='p12'/>PKCS12 (.p12) file
+          <input type='radio' name='results' value='scr' checked/>Screen display
+          </p>
+
+          <p>
+          <input class='submit' type='submit' name='submit' value='Generate'/>
+          </p>
+        </form>
+      </fieldset>
+    </div>
+
+    <p><br/></p>
+    <div class='bigbox'>
+      <fieldset>
+        <legend>For Developers</legend>
+        <p>A couple utility files and scripts are available for you
+        to use in building your own PKI:
+        </p>
+        <ul>
+          <li><a href="pki.tgz">Compressed tar file of the package</a></li>
+          <li><a href="enroll.txt">Shell script for batch requests</a></li>
+        </ul>
+      </fieldset>
+    </div>
+
+  </body>
+</html>

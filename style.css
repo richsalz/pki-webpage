@@ -1,0 +1,22 @@
+/* Really simple style. */
+div.bigbox {
+    width: 50%;
+}
+legend {
+    border: 1px solid;
+    padding: 2px 6px;
+    font-family: arial;
+    font-variant: small-caps;
+    font-weight: bolder;
+}
+label {
+    width: 8em;
+    float: left;
+    text-align: right;
+    margin-right: 0.5em;
+}
+input.submit {
+    margin-left: 10em;
+    font-family: arial;
+    font-weight: bolder;
+}

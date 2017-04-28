@@ -1,0 +1,97 @@
+##
+##
+
+##  Change these.  They are used in the certificate request section below.
+C   = XXX
+O   = XXX
+OU  = SSL PKI
+
+##  Where to keep all data (CA key, certs, etc).  See BUILD if you change
+##  this.  Not tested with any value other then a local subdir of the
+##  web page.
+dir = data
+
+##  Since the req command has no parameter to specify the distinguished_name
+##  section, we have to use an environment variable with default.  This
+##  is set by the BUILD script to build the CA; you shouldn't need to
+##  touch this.
+DNTYPE    = dn_req
+
+##  Environment variables -- makecert sets these, but OpenSSL needs a
+##  default value.
+CN        = unknown
+EMAILADDR = unknown
+IPADDR    = 127.0.0.1
+
+
+##  Extensions for the CA certificate.  Use by the x509 command in BUILD.
+[ cacert_ext ]
+subjectKeyIdentifier = hash
+basicConstraints     = critical, CA:true, pathlen:0
+keyUsage             = keyCertSign, cRLSign
+
+
+##  This is our CA.
+[ pki_ca ]
+serial           = $dir/serial       # Current cert serial number
+crlnumber        = $dir/crlnumber    # Current CRL serial number
+database         = $dir/index.txt    # database index file
+certificate      = $dir/cert.pem     # CA certificate
+private_key      = $dir/key.pem      # Private key
+crl              = $dir/crl.pem      # Current CRL
+new_certs_dir    = $dir/certs        # Default place for new certs
+x509_extensions  = cert_ext          # Extensions to add to the cert
+default_days     = 1460              # Cert lifetime (four years)
+default_crl_days = 40                # How long before next CRL
+default_md       = sha1              # MD (message digest) to use
+preserve         = yes               # Keep passed DN ordering?
+policy           = dn_policy         # Policy for building the DN's
+email_in_dn      = no                # Self-explanatory
+
+##  DN naming policy.
+[ dn_policy ]
+C  = match
+O  = match
+OU = match
+CN = supplied
+
+##  Extensions for an end-entity certificate.
+##  Set up for SSL; change this as appropriate.
+[ cert_ext ]
+subjectKeyIdentifier = hash
+basicConstraints     = CA:FALSE
+keyUsage             = nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage     = serverAuth
+subjectAltName       = email:$ENV::EMAILADDR
+
+##  Extensions for an end-entity certificate (with IP address specified).
+[ cert_ipaddr_ext ]
+subjectKeyIdentifier = hash
+basicConstraints     = CA:FALSE
+keyUsage             = nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage     = serverAuth
+subjectAltName       = email:$ENV::EMAILADDR, IP:$ENV::IPADDR
+
+
+###
+###   CERTIFICATE REQUEST CONFIGURATION DATA
+###
+
+[ req ]
+RANDFILE           = $dir/.rand
+prompt             = no
+distinguished_name = $ENV::DNTYPE
+string_mask        = nombstr  # legal charsets; this seems a portable value
+
+##  DN for the CA
+[ cadn_req ]
+C                  = $C
+O                  = $O
+OU                 = $OU
+
+##  DN for end-entity certificates
+[ dn_req ]
+C                  = $C
+O                  = $O
+OU                 = $OU
+CN                 = $ENV::CN

@@ -1,0 +1,15 @@
+#! /bin/sh
+
+##  Script to enroll an SSL server in the small PKI :)
+
+url='http://os390/rsalz/pki/makecert.cgi'
+name='name=rsalz@us.ibm.com'
+pass="pass=$1"
+
+hostname='hostname=myhostname'
+suffix='suffix=yes' # append domain suffix ?
+#ipaddr='ipaddr=9.9.9.9'
+ipaddr=''
+results='results=scr' # or p12
+
+wget -O- -q "${url}?${name}&${pass}&${hostname}&${suffix}&${ipaddr}&${results}"
